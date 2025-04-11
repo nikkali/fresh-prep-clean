@@ -4,11 +4,13 @@ import { useState } from "react"
 import { useCart } from "@/hooks/use-cart"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { toast } from "@/hooks/use-toast"
+import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
 import { siteConfig } from "@/config/site"
 
+
 export default function CheckoutPage() {
+  const { toast } = useToast()
   const { items, clearCart } = useCart()
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)

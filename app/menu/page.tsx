@@ -3,9 +3,8 @@
 import { useState } from "react"
 import { useCart } from "@/hooks/use-cart"
 import { Button } from "@/components/ui/button"
-import { toast } from "@/hooks/use-toast"
+import { useToast } from "@/hooks/use-toast"
 import Image from "next/image"
-
 // Menu items - You can edit these directly
 const meals = [
   {
@@ -64,6 +63,7 @@ const meals = [
 ]
 
 export default function MenuPage() {
+  const { toast } = useToast()
   const [activeCategory, setActiveCategory] = useState("weekly")
   const { addItem } = useCart()
 
