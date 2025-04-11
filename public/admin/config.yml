@@ -1,0 +1,38 @@
+backend:
+  name: git-gateway
+  branch: main # Branch to update
+
+media_folder: "public/images/uploads" # Media files will be stored here
+public_folder: "/images/uploads" # The src attribute for uploaded media
+
+collections:
+  - name: "meals" # Used in routes, e.g., /admin/collections/meals
+    label: "Meals" # Used in the UI
+    folder: "content/meals" # The path to the folder where the documents are stored
+    create: true # Allow users to create new documents in this collection
+    slug: "{{slug}}" # Filename template, e.g., title.md
+    fields: # The fields for each document
+      - {label: "ID", name: "id", widget: "string"}
+      - {label: "Name", name: "name", widget: "string"}
+      - {label: "Description", name: "description", widget: "text"}
+      - {label: "Price", name: "price", widget: "number", value_type: "float"}
+      - {label: "Category", name: "category", widget: "select", options: ["weekly", "freezer"]}
+      - {label: "Image", name: "image", widget: "image"}
+      - label: "Macros"
+        name: "macros"
+        widget: "object"
+        fields:
+          - {label: "Protein", name: "protein", widget: "string"}
+          - {label: "Carbs", name: "carbs", widget: "string"}
+          - {label: "Fat", name: "fat", widget: "string"}
+
+  - name: "settings"
+    label: "Settings"
+    files:
+      - label: "Payment Settings"
+        name: "payment"
+        file: "content/settings/payment.yml"
+        fields:
+          - {label: "Cash App Username", name: "cashapp", widget: "string"}
+          - {label: "Venmo Username", name: "venmo", widget: "string"}
+          - {label: "Order Email", name: "orderEmail", widget: "string"}

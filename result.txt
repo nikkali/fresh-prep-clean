@@ -1,0 +1,178 @@
+I'll guide you through deploying to Netlify step by step:
+
+1. First, create a GitHub repository:
+- Go to GitHub.com
+- Click "New repository"
+- Name it (e.g., "fresh-prep")
+- Keep it public
+- Don't initialize with any files
+
+2. Prepare your local project:
+```bash
+# In your project directory
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin YOUR_GITHUB_REPO_URL
+git push -u origin main
+```
+
+3. Deploy to Netlify:
+- Go to netlify.com
+- Sign up/Login
+- Click "Add new site"
+- Choose "Import an existing project"
+- Select "Deploy with GitHub"
+- Select your repository
+- Configure build settings:
+  ```
+  Build command: npm run build
+  Publish directory: .next
+  ```
+- Click "Deploy site"
+
+4. Important files to check before deploying:
+
+=== Start File ===
+netlify.toml
+---
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  NEXT_USE_NETLIFY_EDGE = "true"
+  NODE_VERSION = "18"
+=== End File ===
+
+=== Start File ===
+next.config.js
+---
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'export',
+  images: {
+    unoptimized: true,
+    domains: ['images.pexels.com', 'images.unsplash.com'],
+  },
+}
+
+module.exports = nextConfig
+=== End File ===
+
+=== Start File ===
+package.json
+---
+{
+  "name": "fresh-prep",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
+    "@radix-ui/react-dialog": "^1.0.5",
+    "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-select": "^2.0.0",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-toast": "^1.1.5",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "lucide-react": "^0.363.0",
+    "next": "13.5.1",
+    "next-themes": "^0.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwind-merge": "^2.2.2",
+    "tailwindcss-animate": "^1.0.7",
+    "zustand": "^4.5.2"
+  },
+  "devDependencies": {
+    "@netlify/plugin-nextjs": "^4.41.3",
+    "@types/node": "^20.11.30",
+    "@types/react": "^18.2.67",
+    "@types/react-dom": "^18.2.22",
+    "autoprefixer": "^10.4.18",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "13.5.1",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.4.2"
+  }
+}
+=== End File ===
+
+5. Step by step deployment:
+
+```bash
+# 1. Install Netlify CLI (optional but helpful)
+npm install -g netlify-cli
+
+# 2. Login to Netlify (if you installed the CLI)
+netlify login
+
+# 3. Initialize Netlify (if using CLI)
+netlify init
+
+# 4. Install dependencies
+npm install
+
+# 5. Build locally to test
+npm run build
+
+# 6. Deploy
+git push origin main  # Netlify will auto-deploy
+# OR
+netlify deploy --prod  # If using CLI
+```
+
+6. After deployment:
+
+- Go to your Netlify dashboard
+- Click on your site
+- Go to "Site settings" > "Identity"
+- Enable Identity
+- Enable Git Gateway
+- Set registration to "Invite only"
+- Invite yourself as an admin
+
+7. Configure your domain (optional):
+- Go to "Domain settings"
+- Add your custom domain
+- Follow DNS instructions
+
+Common issues and fixes:
+
+1. Build fails:
+```bash
+# Clear cache and node_modules
+rm -rf .next
+rm -rf node_modules
+npm install
+```
+
+2. Image loading issues:
+- Make sure images are in the domains list in next.config.js
+- Use relative paths for local images
+
+3. API routes not working:
+- Make sure to use proper Netlify functions format
+- Add proper redirects in netlify.toml
+
+Would you like me to:
+1. Create a deployment script?
+2. Show how to handle environment variables?
+3. Add more configuration options?
+
+Let me know if you need help with any specific part of the deployment process!
+Checking for production readiness
+Running command: NEXT_DIST_DIR=.build npm run buildStarting development server
+Running command: PORT=8080 npm run dev
